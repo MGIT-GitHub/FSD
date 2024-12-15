@@ -1,0 +1,22 @@
+mongod --version
+mongosh
+show dbs
+use MYDB2
+// // create
+db.createCollection("emp")
+show collections
+
+// // insert
+db.emp.insertOne({"id":101 , "name":"abc"})
+db.emp.insertOne({"id":102 , "name":"def"})
+db.emp.insertOne({"id":103 , "name":"cba"})
+db.emp.insertOne({"id":104 , "name":"xyz"})
+db.emp.find().pretty()
+
+db.emp.find().count()
+
+db.emp.find().pretty().limit(1)
+
+db.emp.find().pretty().skip(2)
+
+db.emp.find().pretty().sort({id:1}) -1 for desc orderF

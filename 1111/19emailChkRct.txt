@@ -1,0 +1,41 @@
+
+// ----Form-validate/Src/App.js---------
+
+// //email validation
+import React, { useState } from 'react';
+export default function ValidatedForm() {
+  const [email, setEmail] = useState('');
+  const [error, setError] = useState('');
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setEmail(value);
+
+    // Simple validation
+    if (!/\S+@\S+\.\S+/.test(value)) {
+      setError('Invalid email address');
+    } else {
+      setError('');
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!error) {
+      alert('Email submitted successfully....');
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <label>
+        Email:
+        <input type="email" value={email} onChange={handleChange} />
+      </label>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+      <button type="submit" disabled={!!error}>
+        Submit
+      </button>
+    </form>
+  );
+}

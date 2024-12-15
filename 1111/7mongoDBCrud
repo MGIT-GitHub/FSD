@@ -1,0 +1,26 @@
+mongod --version
+mongosh
+show dbs
+use MYDB1
+// // create
+db.createCollection("students")
+show collections
+
+// // insert
+db.students.insertOne({"rollno":101 , "name":"abc"})
+db.students.insertOne({"rollno":102 , "name":"def"})
+db.students.insertOne({"rollno":103 , "name":"cba"})
+db.students.insertOne({"rollno":104 , "name":"xyz"})
+db.students.find().pretty()
+
+// //update
+db.students.updateOne({rollno:102},{$set:{name:"cse2"}})
+db.students.find().pretty()
+
+// // delete
+db.students.drop()
+show collections
+
+db.dropDatabase()
+show dbs
+

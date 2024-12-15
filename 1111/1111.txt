@@ -1,0 +1,1779 @@
+EXP1.
+AIM: Create an application to setup node JS environment and display "Hello World."
+hello1.js
+http = require('http');
+listener = function (req, res) {
+    res.writeHead(200, {'Content-Type': 'text/html'});
+       res.end('Hello World......');
+};
+
+server = http.createServer(listener);
+server.listen(3000);
+
+output:
+
+
+hello2.js
+//Create an application to setup node JS environment and display "Hello World." on webpage
+var http = require('http');
+ http.createServer(function (req, res) {
+  res.writeHead(200, {'Content-Type': 'text/html'});
+  res.write('<h1>hello world....</h1>');
+      res.end();
+   
+   }).listen(8080);
+
+output:
+
+
+EXP2.
+AIM: Write a java script to find the factorial of a given number
+
+function factorial(num) {
+// Base case
+ if (num === 0) {
+ return 1;
+ }
+ // Recursive case
+ return num * factorial(num - 1);
+ }
+ console.log(factorial(5));
+
+Output:
+
+
+
+EXP3. 
+AIM: Write a java script to check the given number is prime or not
+// program to check if a number is prime or not
+// take input from the user
+ const number = parseInt(prompt("Enter a positive number: "));
+ let isPrime = true;
+ // check if number is equal to 1
+ if (number === 1) {
+ console.log("1 is neither prime nor composite number.");
+ }
+ // check if number is greater than 1
+ else if (number > 1) {
+ // looping through 2 to number-1
+ for (let i = 2; i < number; i++) {
+ if (number % i == 0) {
+ isPrime = false;
+ break;
+ }
+}
+ if (isPrime) {
+ console.log(`${number} is a prime number`);
+ } else {
+ console.log(`${number} is a not prime number`);
+ }
+ }
+OUTPUT:
+
+
+
+
+Exp4.
+Aim: Write a Node JS program to reverse the given string
+// program to reverse a string
+const prompt = require('prompt-sync')();
+ function reverseString(str) {
+// empty string
+ let newString = "";
+ for (let i = str.length - 1; i >= 0; i--) {
+ newString += str[i];
+ }
+ return newString;
+ }
+// take input from the user
+ const string = prompt('Enter a string: ');
+ const result = reverseString(string);
+ console.log(result)
+Output:
+
+
+
+EXP5. 
+Aim: Write a Node JS program to perform read, write and other operations on a file.
+readFile.js
+//READ FILE
+var http = require('http');
+var fs = require('fs');
+http.createServer(function (req, res) {
+  fs.readFile('file1.txt', function(err, data) {
+    res.writeHead(200, {'Content-Type': 'text/html'});
+    res.write(data);
+    return res.end();
+  });
+}).listen(8080);
+File1.txt
+WELCOME TO MGIT CSE1 FULL STACK DEVELOPMENT
+Output:
+
+writeFile.js
+//WRITE FILE ASYNCHRONOUS CALL
+var fs = require('fs');
+fs.writeFile('file1.txt', 'This is my text', function (err) {
+  if (err) throw err;
+  console.log('Replaced!');
+});
+Output:
+
+
+
+
+appendFile.js
+//APPEND FILE ASYNCHRONOUS CALL
+var fs = require('fs');
+fs.appendFile('file1.txt', 'FULL STACK DEVELOPMENT', function (err) {
+  if (err) throw err;
+  console.log('Saved!');
+});
+Output:
+
+
+
+
+
+Deletefile.js
+//DELETE FILE
+var fs = require('fs');
+fs.unlink('file2.txt', function (err) {
+  if (err) throw err;
+  console.log('File deleted!');
+});
+
+
+EXP6.
+Aim: Write a Node JS program to demonstrate user defined modules.
+Calc.js
+//calc functions
+exports.add = function (x, y) {
+    return x + y;
+};
+exports.sub = function (x, y) {
+   return x - y;
+};
+exports.mult = function (x, y) {
+    return x * y;
+}; 
+exports.div = function (x, y) {
+    return x / y;
+};
+Module.js
+
+//user defined module
+const calculator = require('./calc.js');
+let x = 50, y = 10; 
+console.log("Addition of 50 and 10 is"   + calculator.add(x, y));
+console.log("Subtraction of 50 and 10 is "  + calculator.sub(x, y));
+console.log("Multiplication of 50 and 10 is "+ calculator.mult(x, y));
+console.log("Division of 50 and 10 is " + calculator.div(x, y));
+
+output:
+
+
+Exp7:
+Aim: Write a Node JS program to demonstrate accessing static files using http webserver and client.
+Httpstaticfileserver.js
+//Implementing a basic static file webserver
+var fs = require('fs');
+var http = require('http');
+var url = require('url');
+var ROOT_DIR = "html/";
+http.createServer(function (req, res) {
+var urlObj = url.parse(req.url, true, false);
+fs.readFile(ROOT_DIR + urlObj.pathname, function (err,data) {
+if (err) {
+res.writeHead(404);
+res.end(JSON.stringify(err));
+return;
+}
+res.writeHead(200);
+res.end(data);
+});
+}).listen(8080)
+Output:
+
+
+
+
+
+
+
+
+Httpstaticfileclient.js
+// Basic web client retrieving static files
+var http = require('http');
+var options = {
+hostname: 'localhost',
+ port: '8080',
+ path: '/hello.html'
+ };
+ function handleResponse(response) {
+ var serverData = '';
+ response.on('data', function (chunk) {
+ serverData += chunk;
+ });
+ response.on('end', function () {
+ console.log(serverData);
+ });
+ }
+ http.request(options, function(response){
+ handleResponse(response);
+ }).end()
+html/hello.html
+<html>
+ <head>
+ <title>Static Example</title>
+ </head>
+ <body>
+ <h1>Hello from a Static File</h1>
+ </body>
+</html>
+
+Output:
+
+
+
+
+Exp8:
+Aim: Write a Node JS program to demonstrate accessing dynamic content through GET method using http webserver and client.
+Httpserverget.js
+//Implementing a basic GET webserver
+var http = require('http');
+var messages = [
+ 'Hello World',
+ 'From a basic Node.js server',
+ 'Take Luck'];
+ http.createServer(function (req, res) {
+ res.setHeader("Content-Type", "text/html");
+ res.writeHead(200);
+ res.write('<html><head><title>Simple HTTP Server</title></head>');
+ res.write('<body>');
+ for (var idx in messages){
+ res.write('\n<h1>' + messages[idx] + '</h1>');
+ }
+ res.end('\n</body></html>');
+ }).listen(8080)
+
+Output:
+
+
+
+
+
+
+
+
+
+Httpsclientget.js
+// Basic web client retrieving 
+var http = require('http');
+var options = {
+hostname: 'localhost',
+ port: '8080',
+  };
+ function handleResponse(response) {
+ var serverData = '';
+ response.on('data', function (chunk) {
+ serverData += chunk;
+ });
+ response.on('end', function () {
+    console.log("Response Status:", response.statusCode);
+    console.log("Response Headers:", response.headers); 
+    console.log(serverData);
+ });
+ }
+ http.request(options, function(response){
+ handleResponse(response);
+ }).end()
+
+
+Output:
+
+
+
+
+Exp9: 
+AIM: write a Node JS program to read form data from query string and generate response using NodeJS
+//write a Node JS program to read form data from query string and generate response using NodeJS
+var http = require('http');
+var url = require('url');
+http.createServer(function (req, res) {
+  res.writeHead(200, {'Content-Type': 'text/html'});
+  var q= url.parse(req.url,true).query;
+  console.log(q);
+  var txt = q.year + " " + q.month;
+  res.end(txt);
+}).listen(8080);
+
+OUTPUT:
+
+
+
+Exp10: 
+AIM: write a Node JS program to demonstrate events and call back functions.
+//events.js
+// Importing events
+const EventEmitter = require('events');
+// Initializing event emitter instances 
+var eventEmitter = new EventEmitter();
+// Registering to myEvent 
+eventEmitter.on('myEvent', (msg) => {
+   console.log(msg);
+}); 
+// Triggering myEvent
+eventEmitter.emit('myEvent', "First event");
+// Triggering myEvent
+eventEmitter.emit('myEvent', "Second event");
+console.log("program ended...")
+
+output:
+
+
+//callback.js
+// call back function
+var fs= require('fs')
+fs.writeFile('file.txt',' welcome to call back functions', function()
+    {
+    console.log(" data written to file.txt")
+})
+console.log('End of the program.....')
+output:
+
+
+Exp11: Implement a program with basic commands on databases and collections using MongoDB. 
+MONGODB COMMANDS  (CRUD OPERATIONS):
+C-CREATE
+R-READ/RETRIVE
+U-UPDATE
+D-DELETE
+
+1. D:\MONGODB\DB>mongod --version
+db version v8.0.0
+Build Info: {
+    "version": "8.0.0",
+    "gitVersion": "d7cd03b239ac39a3c7d63f7145e91aca36f93db6",
+    "modules": [],
+    "allocator": "tcmalloc-gperf",
+    "environment": {
+        "distmod": "windows",
+        "distarch": "x86_64",
+        "target_arch": "x86_64"
+    }
+}
+
+2.D:\MONGODB\DB>mongosh
+Current Mongosh Log ID: 66f252c9808c7f3e6bc73bf7
+Connecting to:          mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.3.1
+Using MongoDB:          8.0.0
+Using Mongosh:          2.3.1
+
+For mongosh info see: https://www.mongodb.com/docs/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2024-09-23T14:31:32.621+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+------
+
+test>
+
+3.test> show dbs
+admin   40.00 KiB
+config  72.00 KiB
+local   72.00 KiB
+
+
+4.test> use MYDB1
+switched to db MYDB1
+
+MYDB1> show dbs
+admin   40.00 KiB
+config  72.00 KiB
+local   72.00 KiB
+
+
+5.MYDB1> db.createCollection("students")
+{ ok: 1 }
+
+6.MYDB1> show dbs
+MYDB1     8.00 KiB
+admin    40.00 KiB
+config  108.00 KiB
+local    72.00 KiB
+
+7.MYDB1> db.students.insertOne({"rollno":501 , "name":"cse1"})
+{
+  acknowledged: true,
+  insertedId: ObjectId('66f255ec808c7f3e6bc73bf8')
+}
+
+8.MYDB1> show collections
+Students
+
+9.MYDB1> db.students.find().pretty()
+[
+  {
+    _id: ObjectId('66f255ec808c7f3e6bc73bf8'),
+    rollno: 501,
+    name: 'cse1'
+  }
+]
+
+10.MYDB1> db.students.insertOne({"rollno":502 , "name":"cse2"})
+{
+  acknowledged: true,
+  insertedId: ObjectId('66f2577b808c7f3e6bc73bf9')
+}
+
+11.MYDB1> db.students.find().pretty()
+[
+  {
+    _id: ObjectId('66f255ec808c7f3e6bc73bf8'),
+    rollno: 501,
+    name: 'cse1'
+  },
+  {
+    _id: ObjectId('66f2577b808c7f3e6bc73bf9'),
+    rollno: 502,
+    name: 'cse2'
+  }
+]
+
+12.MYDB1> db.students.updateOne({rollno:502},{$set:{name:"cse3"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+13.MYDB1> db.students.find().pretty()
+[
+  {
+    _id: ObjectId('66f255ec808c7f3e6bc73bf8'),
+    rollno: 501,
+    name: 'cse1'
+  },
+  {
+    _id: ObjectId('66f2577b808c7f3e6bc73bf9'),
+    rollno: 502,
+    name: 'cse3'
+  }
+]
+14. MYDB1> db.students.deleteOne({rollno:111})
+{ acknowledged: true, deletedCount: 1 }
+
+MYDB1> db.students.find().pretty()
+[
+  {
+    _id: ObjectId('670ca9a53fede232f9c73bf9'),
+    rollno: 222,
+    name: 'cccccc'
+  }
+]
+15.MYDB1> db.students.drop()
+True
+
+16.MYDB1> show collections
+
+17.MYDB1> db.dropDatabase()
+{ ok: 1, dropped: 'MYDB1' }
+
+18MYDB1> show dbs
+admin    40.00 KiB
+config  108.00 KiB
+local    72.00 KiB
+
+inserting documents from java scripts:
+
+db1.js
+
+    db.students.insertOne({name: "Karthik", rollno: 101, marks: 98 })
+    db.students.insertOne({name: "Ravi", rollno: 102, marks: 99 })
+    db.students.insertOne({name: "Shiva", rollno: 103, marks: 100 })
+    db.students.insertOne({name: "Pavan", rollno: 104, marks: 80 })
+
+
+
+MYDB1> load('d:\db1.js')
+True
+
+MYDB1> db.students.find().pretty()
+[
+  {
+    _id: ObjectId('670ca9a53fede232f9c73bf9'),
+    rollno: 222,
+    name: 'cccccc'
+  },
+  {
+    _id: ObjectId('670ded507a61ecab52c73bf8'),
+    name: 'Karthik',
+    rollno: 101,
+    marks: 98
+  },
+  {
+    _id: ObjectId('670ded507a61ecab52c73bf9'),
+    name: 'Ravi',
+    rollno: 102,
+    marks: 99
+  },
+  {
+    _id: ObjectId('670ded507a61ecab52c73bfa'),
+    name: 'Shiva',
+    rollno: 103,
+    marks: 100
+  },
+  {
+    _id: ObjectId('670ded507a61ecab52c73bfb'),
+    name: 'Pavan',
+    rollno: 104,
+    marks: 80
+  }
+]
+
+MYDB1> db.students.findOne()
+{
+  _id: ObjectId('670ca9a53fede232f9c73bf9'),
+  rollno: 222,
+  name: 'cccccc'
+}
+
+MYDB1> db.students.findOne({'name':'cccccc'})
+{
+  _id: ObjectId('670ca9a53fede232f9c73bf9'),
+  rollno: 222,
+  name: 'cccccc'
+}
+
+
+
+Adding the MongoDB Driver to Node.js
+
+1.npm install mongodb
+
+added 12 packages, and audited 30 packages in 2s
+
+found 0 vulnerabilities
+
+
+Exp12: Implement CRUD operations on the given dataset using MongoDB. 
+
+Connect.js
+
+
+// Connect to database and close the database connection
+
+const { MongoClient } = require('mongodb')
+
+// Create Instance of MongoClient for mongodb
+const client = new MongoClient('mongodb://localhost:27017')
+
+// Connect to database
+client.connect()
+    .then(() => {
+        console.log('Connected Successfully!')
+        
+        //Close the database connection
+        console.log('Exiting..')
+        client.close()
+    })
+    .catch(error => console.log('Failed to connect!', error))
+
+Output:
+
+
+
+
+
+
+Insertdb.js
+
+// to insert one document
+const { MongoClient } = require('mongodb')
+
+// Create Instance of MongoClient for mongodb
+const client = new MongoClient('mongodb://localhost:27017')
+
+// Insert to database
+client.db('MYDB').collection('students').insertOne({
+    name: 'cse1',
+    email: 'cse1@example.com'
+})
+    .then((res) => {
+        console.log(res)
+        client.close()
+    })
+    .catch((err) => console.log(err))
+
+
+
+Output:
+
+
+
+Finddb.js
+
+
+//to find one document
+const { MongoClient } = require('mongodb')
+
+// Create Instance of MongoClient for mongodb
+const client = new MongoClient('mongodb://localhost:27017')
+
+// Insert to database
+client.db('MYDB').collection('students')
+    .findOne({name:'cse1'})
+    .then((res) => {
+        console.log(res)
+        client.close()
+    })
+    .catch((err) => console.log(err))
+
+
+Output:
+
+
+
+
+
+
+Updatedb.js
+
+//to update one document
+const { MongoClient } = require('mongodb')
+
+// Create Instance of MongoClient for mongodb
+const client = new MongoClient('mongodb://localhost:27017')
+
+// Insert to database
+client.db('MYDB').collection('students')
+    .updateOne({ name: 'cse1' },
+        {
+            $set:
+                { email: 'cse123@example.com' }
+        })
+    .then((res) => {
+        console.log(res)
+        client.close()
+    })
+    .catch((err) => console.log(err))
+
+
+
+Output:
+
+
+
+
+
+
+
+Deletedb.js
+
+//to delete one document
+const { MongoClient } = require('mongodb')
+
+// Create Instance of MongoClient for mongodb
+const client = new MongoClient('mongodb://localhost:27017')
+
+// Insert to database
+client.db('MYDB').collection('students')
+    .deleteOne({ name: 'cse1' })
+    .then((res) => {
+        console.log(res)
+        client.close()
+    })
+    .catch((err) => console.log(err))
+
+
+
+Output:
+
+
+Exp13: Perform Count, Limit, Sort, and Skip operations on the given collections using MongoDB. 
+
+test> use MYDB2
+switched to db MYDB2
+
+MYDB2> db.createCollection("employees");
+{ ok: 1 }
+
+MYDB2> db.employees.insertMany([{'id':111, 'name':'aaaa', 'salary':10000},{'id':222, 'name':'bbbb', 'salary':30000},{'id':333, 'name':'cccc', 'salary':20000},{'id':444, 'name':'dddd', 'salary':10000}])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('6713c7d9b34f42f350c73bfc'),
+    '1': ObjectId('6713c7d9b34f42f350c73bfd'),
+    '2': ObjectId('6713c7d9b34f42f350c73bfe'),
+    '3': ObjectId('6713c7d9b34f42f350c73bff')
+  }
+}
+
+MYDB2> db.employees.find().pretty()
+[
+  {
+    _id: ObjectId('6713c7d9b34f42f350c73bfc'),
+    id: 111,
+    name: 'aaaa',
+    salary: 10000
+  },
+  {
+    _id: ObjectId('6713c7d9b34f42f350c73bfd'),
+    id: 222,
+    name: 'bbbb',
+    salary: 30000
+  },
+  {
+    _id: ObjectId('6713c7d9b34f42f350c73bfe'),
+    id: 333,
+    name: 'cccc',
+    salary: 20000
+  },
+  {
+    _id: ObjectId('6713c7d9b34f42f350c73bff'),
+    id: 444,
+    name: 'dddd',
+    salary: 10000
+  }
+]
+
+MYDB2> db.employees.find().count()
+4
+
+MYDB2> db.employees.find({salary:10000}).count()
+2
+
+
+MYDB2> db.employees.find().pretty().limit(1)
+[
+  {
+    _id: ObjectId('6713c7d9b34f42f350c73bfc'),
+    id: 111,
+    name: 'aaaa',
+    salary: 10000
+  }
+]
+
+MYDB2> db.employees.find().pretty().limit(2)
+[
+  {
+    _id: ObjectId('6713c7d9b34f42f350c73bfc'),
+    id: 111,
+    name: 'aaaa',
+    salary: 10000
+  },
+  {
+    _id: ObjectId('6713c7d9b34f42f350c73bfd'),
+    id: 222,
+    name: 'bbbb',
+    salary: 30000
+  }
+]
+
+MYDB2> db.employees.find().pretty().skip(2)
+[
+  {
+    _id: ObjectId('6713c7d9b34f42f350c73bfe'),
+    id: 333,
+    name: 'cccc',
+    salary: 20000
+  },
+  {
+    _id: ObjectId('6713c7d9b34f42f350c73bff'),
+    id: 444,
+    name: 'dddd',
+    salary: 10000
+  }
+]
+
+MYDB2> db.employees.find().pretty().skip(3)
+[
+  {
+    _id: ObjectId('6713c7d9b34f42f350c73bff'),
+    id: 444,
+    name: 'dddd',
+    salary: 10000
+  }
+]
+
+
+MYDB2> db.employees.find().pretty().sort({id:1})
+[
+  {
+    _id: ObjectId('6713c7d9b34f42f350c73bfc'),
+    id: 111,
+    name: 'aaaa',
+    salary: 10000
+  },
+  {
+    _id: ObjectId('6713c7d9b34f42f350c73bfd'),
+    id: 222,
+    name: 'bbbb',
+    salary: 30000
+  },
+  {
+    _id: ObjectId('6713c7d9b34f42f350c73bfe'),
+    id: 333,
+    name: 'cccc',
+    salary: 20000
+  },
+  {
+    _id: ObjectId('6713c7d9b34f42f350c73bff'),
+    id: 444,
+    name: 'dddd',
+    salary: 10000
+  }
+]
+
+MYDB2> db.employees.find().pretty().sort({id:-1})
+[
+  {
+    _id: ObjectId('6713c7d9b34f42f350c73bff'),
+    id: 444,
+    name: 'dddd',
+    salary: 10000
+  },
+  {
+    _id: ObjectId('6713c7d9b34f42f350c73bfe'),
+    id: 333,
+    name: 'cccc',
+    salary: 20000
+  },
+  {
+    _id: ObjectId('6713c7d9b34f42f350c73bfd'),
+    id: 222,
+    name: 'bbbb',
+    salary: 30000
+  },
+  {
+    _id: ObjectId('6713c7d9b34f42f350c73bfc'),
+    id: 111,
+    name: 'aaaa',
+    salary: 10000
+  }
+]
+Exp.14:
+
+AIM: Program to print the msg 'Hello world!' using Express JS
+Note: use the following commands to create the application:
+>npm init
+>npm install -g express
+
+Index.js
+// to print the msg 'Hello world!'
+var express = require('express');
+var app = express();
+const PORT=3000
+app.get('/', function(req, res){
+res.send("Hello world!");
+});
+app.listen(PORT,()=>
+{
+   console.log('server is running at port:'+PORT)
+});
+
+
+
+
+Output:
+>node index.js
+
+Localhost:3000
+
+
+
+
+Exp.15:
+
+AIM: Program to demonstrate configuring and implementing routes using Express JS
+Index.js
+
+// to demonstrate configuring and implementing routes using Express Js
+var express = require('express');
+var app = express();
+const PORT=3000
+app.get('/', function(req, res){
+    res.send("Server Home page!");
+    });
+app.get('/login', function(req, res){
+res.send("Login page!");
+});
+app.get('/save', function(req, res){
+    res.send("Save page!");
+    });
+app.listen(PORT,()=>
+{
+    console.log('server is running at port:'+PORT)
+});
+
+
+Output:
+Localhost:3000
+
+
+Localhost:3000/login
+
+
+Localhost:3000/save
+
+
+
+
+
+Exp.16:
+
+AIM: Program to demonstrate Applying Route Parameters in Express JS
+
+
+
+Index.js
+//to demonstrate Applying Route Parameters in Express JS
+var express = require('express');
+ var url = require('url');
+var app = express();
+ app.listen(4000);
+app.get('/', function (req, res) {
+ res.send("Get Index");
+ });
+ app.get('/find', function(req, res){
+ var url_parts = url.parse(req.url, true);
+ var query = url_parts.query; 
+ var response = 'Finding Book: Author: ' + query.author + 
+' Title: ' + query.title;
+console.log('\nQuery URL: ' + req.originalUrl); 
+console.log(response);
+res.send(response);
+ });
+ app.get(/^\/book\/(\w+)\:(\w+)?$/, function(req, res){
+    var response = 'Get Book: Chapter: ' + req.params[0] + 
+     ' Page: ' + req.params[1];
+     console.log('\nRegex URL: ' + req.originalUrl);
+     console.log(response);
+     res.send(response);
+     });
+     app.get('/user/:userid', function (req, res) {
+        res.send("Get User: " + req.param("userid"));
+       });
+       
+
+
+
+
+Output:
+
+http://localhost:4000
+
+
+http://localhost/find?author=smith&title=DSA
+
+
+http://localhost/book/09:69
+
+
+http://localhost/user/0111
+
+
+
+
+
+Exp.17:
+
+AIM: Commands For Angular Installation, Create and Running Angular Apps.
+
+
+D:\ANGULAR>npm install -g typescript
+
+added 1 package in 1s
+
+D:\ANGULAR>tsc -v
+Version 5.6.3
+
+D:\ANGULAR>npm install -g @angular/cli
+
+added 266 packages in 54s
+
+49 packages are looking for funding
+  run `npm fund` for details
+
+
+D:\ANGULAR>ng v
+
+     _                      _                 ____ _     ___
+    / \   _ __   __ _ _   _| | __ _ _ __     / ___| |   |_ _|
+   / ? \ | '_ \ / _` | | | | |/ _` | '__|   | |   | |    | |
+  / ___ \| | | | (_| | |_| | | (_| | |      | |___| |___ | |
+ /_/   \_\_| |_|\__, |\__,_|_|\__,_|_|       \____|_____|___|
+                |___/
+
+
+Angular CLI: 18.2.10
+Node: 20.15.0
+Package Manager: npm 10.7.0
+OS: win32 x64
+
+Angular:
+...
+Package                      Version
+------------------------------------------------------
+@angular-devkit/architect    0.1802.10 (cli-only)
+@angular-devkit/core         18.2.10 (cli-only)
+@angular-devkit/schematics   18.2.10 (cli-only)
+@schematics/angular          18.2.10 (cli-only)
+
+
+D:\ANGULAR>ng new angulardemo
+
+Would you like to share pseudonymous usage data about this project with the Angular Team
+at Google under Google's Privacy Policy at https://policies.google.com/privacy. For more
+details and how to change this setting, see https://angular.dev/cli/analytics.
+
+   yes
+
+Thank you for sharing pseudonymous usage data. Should you change your mind, the following
+command will disable this feature entirely:
+
+    ng analytics disable --global
+
+
+Exp.18
+
+AIM: : angular component configuration 
+
+Second/src/app/app.component.ts
+
+// angular component configuration 
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+@Component ({
+  selector: 'app-root',
+  standalone: true,
+  template: '<p>hello world</p>',
+  styles: [`
+  P {
+  color: green;
+  font-size: 25px;
+  font-weight: bold;
+  border: 1px ridge blue;
+ padding: 5px;
+  }
+  `]
+  })
+export class AppComponent {
+  title = 'second';
+}
+
+
+
+Output:
+
+
+
+
+
+
+
+
+
+
+Exp.19
+
+AIM: : To demonstrate Using Inline CSS and HTML in Angular Applications
+
+Third/src/app/app.component.ts
+//to demonstrate Using Inline CSS and HTML in Angular Applications
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+
+ @Component({
+ selector: 'app-root',
+ standalone: true,
+ template: `
+ <span>welcome to cse1 students</span>
+ `,
+ styles:[`
+ span {
+ font-weight: bold;
+ font-size: 25px;
+ border: 1px ridge blue;
+ padding: 5px;
+ }
+ `]
+ })
+ export class AppComponent {
+ title = 'third';
+ }
+
+
+Output:
+
+
+
+
+
+
+Exp.20
+
+AIM: : To demonstrate Using external CSS and HTML in Angular Applications
+
+Fourth/src/app/app.component.ts
+
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [RouterOutlet],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css'
+})
+export class AppComponent {
+  title = 'fourth';
+}
+
+
+
+
+
+
+Fourth/src/app/app.component.html
+
+<h1>Congratulations</h1>
+<p>
+ You've successfully loaded an external html file.
+ <span>
+ If I'm red then You managed to get the styles in there as well
+ </span>
+ </p>
+
+
+
+
+
+
+Fourth/src/app/app.component.css
+span{
+    color: red;
+    border: 2px solid red;
+    }
+
+
+
+Exp.21
+
+AIM:  To demonstrate Using expressions in Angular Applications
+
+Expressions/src/app/app.component.ts
+
+//To demonstrate Using expressions in Angular Applications
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+
+@Component({
+  selector: 'app-root',
+  standalone:true,
+  template: `
+  <h1>Expressions</h1>
+  Number:<br>
+  {{5}}<hr>
+  String:<br>
+  {{'My String'}}<hr>
+  Adding two strings together:<br>
+  {{'String1' + ' ' + 'String2'}}<hr>
+  Adding two numbers together:<br>
+  {{5+5}}<hr>
+  Adding strings and numbers together:<br>
+  {{5 + '+' + 5 + '='}}{{5+5}}<hr>
+  Comparing two numbers with each other:<br>
+  {{5===5}}<hr>
+  Reading title value from the class:<br>
+  {{title}}
+  `,
+  })
+  export class AppComponent {
+title='basic expressions'
+}
+
+output:
+
+	
+Exp.22
+
+AIM:  To demonstrate creating different components like header and footer in Angular.
+Note: use the following command to create the application and components
+>ng new component1
+>component1> ng g c header
+>component1> ng g c footer
+
+Component1/src/app/app.component.ts
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { HeaderComponent } from 'd:/MGIT/FSD_LAB/HF/header/header.component';
+import { FooterComponent } from 'D:/MGIT/FSD_LAB/HF/footer/footer.component';
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [RouterOutlet,HeaderComponent,FooterComponent],       
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css'
+})
+export class AppComponent {
+  title = 'component1';
+}
+
+Component1/src/app/app.component.html
+<hr>
+<h1> CREATING TWO COMPONENTS </h1>
+<hr>
+<app-header> </app-header>
+<hr>
+<app-footer> </app-footer>
+<hr>
+
+
+Component1/src/app/header/header.component.html
+    
+    <h1>Welcome to the HEADER COMPONENT</h1>
+    
+
+
+Component1/src/app/header/header.component.css
+
+h1
+{
+    color: red
+}
+
+
+Component1/src/app/footer/footer.component.html
+    <h1>Welcome to the FOOTER COMPONENT</h1>
+
+
+
+Component1/src/app/footer/footer.component.css
+
+h1{
+    color: violet
+}
+Output:
+
+
+
+
+Exp.23
+
+AIM:  To demonstrate data binding (string interpolation, property binding & class binding) in Angular.
+
+Databinding/src/app/app.component.ts
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [RouterOutlet],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css'
+})
+export class AppComponent {
+  title = 'databinding';
+  isdisabled:boolean=true;
+  isactive:boolean=true;
+  
+}
+
+
+
+
+Databinding/src/app/app.component.html
+
+<h4> String interpolation</h4>
+result:{{100+20}} <br>
+title:{{title}}
+
+<h4> property binding</h4>
+Name: <input type='text'>
+<button [disabled]=isdisabled> submit</button><br>
+
+<h4> class binding</h4>
+<h1 [class]="isactive?'active':'inactive'"> welcome to class  binding</h1>
+
+
+
+Databinding/src/app/app.component.css
+.active{
+    color:blue
+}
+.inactive{
+    color:green
+}
+
+
+
+Output:
+
+
+
+
+Exp.24
+
+AIM:  To demonstrate data binding using events (event binding) in Angular.
+
+Events/src/app/app.component.ts
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [RouterOutlet],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css'
+})
+export class AppComponent {
+  title = 'events';
+  counter:number=0;
+  name:any="null"
+  increment()
+  {
+    this.counter+=1;
+  }
+  decrement()
+  {
+    this.counter-=1;
+  }
+
+changeName(e:any)
+{
+  this.name=e.target.value
+}
+}
+
+Events/src/app/app.component.html
+
+<h1> count:{{counter}}</h1>
+<button (click)="increment()"> increment</button>
+<button (click)="decrement()"> decrement</button>
+<br>
+<br>
+
+Name:<input type="text"(input)="changeName($event)">
+<h2> Your name:{{name}}</h2>
+
+
+
+
+Output:
+
+
+
+Exp.25
+
+AIM:  To demonstrate two way data binding in Angular.
+
+Note: use the following command to create the application
+>ng new twowaybinding --no-standalone
+
+
+
+Src/app/app.module.ts
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { FormsModule } from '@angular/forms';
+@NgModule({
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule
+      ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+
+
+
+
+
+
+src/app/app.component.ts
+
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css'
+})
+export class AppComponent {
+  title = 'twowaybinding';
+  city="hyderabad"
+  
+}
+
+
+src/app/app.component.html
+<div>
+  <h2>Two-Way Data Binding Example</h2>
+
+  <!-- Two-way binding using ngModel -->
+  <label >Enter text:</label>
+  <input [(ngModel)]="text"  />
+  
+  <p>You entered: {{ text }}</p>  <!-- Display the text entered by the user -->
+</div>
+
+
+
+Output:
+
+
+
+Exp.26
+
+AIM:  To demonstrate directives in Angular.
+
+Note: use the following command to create the application
+>ng new directives --no-standalone
+
+Src/app/app.module.ts
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { FormsModule } from '@angular/forms';
+
+@NgModule({
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule
+    
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+
+
+src/app/app.component.ts
+import { Component } from '@angular/core';
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html'
+})
+export class AppComponent {
+  isVisible = true;  // Boolean variable to control visibility
+
+  toggleVisibility() {
+    this.isVisible = !this.isVisible;  // Toggle the visibility of the element
+    
+  }
+
+  items = ['Apple', 'Banana', 'Orange', 'Grapes'];  // Array to iterate over
+
+color: string = 'red';  // Default color
+
+  changeColor(newColor: string) {
+    this.color = newColor;  // Change the color based on button click
+
+  }
+}
+src/app/app.component.html
+
+<h1> EXAMPLE FOR DIRECTIVES IN ANGULAR</h1>
+<h1> ngIf </h1>
+<div *ngIf="isVisible">
+  <p>This element is visible because 'isVisible' is true.</p>
+</div>
+
+<button (click)="toggleVisibility()">Toggle Visibility</button>
+
+<h1> ngFor </h1>
+<ul>
+  <li *ngFor="let item of items; let i = index">
+    {{ i + 1 }}. {{ item }}
+
+      </li>
+</ul>
+
+<h1> ngSwitch </h1>
+<div [ngSwitch]="color">
+  <div *ngSwitchCase="'red'">The color is red!</div>
+  <div *ngSwitchCase="'blue'">The color is blue!</div>
+  <div *ngSwitchCase="'green'">The color is green!</div>
+  <div *ngSwitchDefault>The color is unknown!</div>
+</div>
+
+<button (click)="changeColor('red')">Red</button>
+<button (click)="changeColor('blue')">Blue</button>
+<button (click)="changeColor('green')">Green</button>
+<button (click)="changeColor('yellow')">Yellow</button>
+
+
+Output:
+
+
+
+Exp.27
+
+AIM:  To create a simple "Hello World" React application.
+Prerequisites
+Make sure you have the following installed:
+1. Node.js and npm (Node Package Manager). You can check if these are installed by running the following commands in your terminal:
+node -v
+npm -v
+If you don't have Node.js and npm installed, you can download them from nodejs.org.
+Step-by-Step Guide
+1. Create a New React App Using Create React App
+Run the following command in your terminal:
+A)npm install -g create-react-app 
+B)Create-react-app hello-world
+			(or)
+A) npx create-react-app hello-world
+This will create a new directory called hello-world and set up a boilerplate React application.
+2. Navigate to Your Project Directory
+Once the setup is complete, go into the hello-world directory:
+cd hello-world
+3. Open src/App.js
+In this file, you will modify the default content to display "Hello World".
+The App.js file should look something like this:
+import React from 'react';
+import './App.css';
+
+function App() {
+  return (
+    <div className="App">
+      <h1>Hello World</h1>
+    </div>
+  );
+}
+
+export default App;
+4. Start the Development Server
+Now that your App.js is set up, start the development server to view your application.
+Run:
+npm start
+This will start the server, and you should see your "Hello World" application in your browser at http://localhost:3000/.
+Full Project Structure
+After running the above commands, your project structure should look something like this:
+java
+Copy code
+hello-world/
++-- node_modules/
++-- public/
+    +-- index.html
++-- src/
+    +-- App.css
+    +-- App.js
+    +-- index.js
+    +-- logo.svg
++-- package.json
++-- package-lock.json
++-- README.md
+? The src/App.js file contains the main code for your app.
+? index.js is where React is hooked into the HTML DOM.
+? public/index.html is the HTML template that React will render the app into.
+DEFAULT OUTPUT
+
+
+
+
+EXP28.
+AIM: To demonstrate functional and class components in React.
+
+NOTE:
+1)Create two files in the folder 'src' with CBC.js and FBC.js 
+2) use rcc and rfc to get the class and functional based syntax in the files.
+
+Src/CBC.js
+import React, { Component } from 'react'
+
+export default class CBC extends Component {
+  render() {
+    return (
+      <div>class based component </div>
+    )
+  }
+}
+
+
+
+
+Src/FBC.js
+import React from 'react'
+
+export default function FBC() {
+  return (
+    <div> function based component</div>
+  )
+}
+
+
+
+
+Src/App.js
+import CBC from "./CBC";
+import FBC from "./FBC";
+
+function App() {
+  return (
+    <div>
+      <h1>hello world- main component</h1>
+      <CBC></CBC>
+      <FBC></FBC>
+    </div>
+        
+  );
+}
+
+export default App;
+
+
+
+output:
+
+
+
+EXP29.
+AIM: To demonstrate data (state) and data flow (props) in React.
+a) To demonstrate state in React.
+React-state/src/App.js
+import React, { useState } from 'react';
+
+function Counter() {
+  // Declare a state variable 'count' and a function to update it 'setCount'
+  const [count, setCount] = useState(0);
+  
+  // Function to handle increment
+  const increment = () => {
+    setCount(count + 1);
+    
+  };
+
+  // Function to handle decrement
+  const decrement = () => {
+    setCount(count - 1);
+  };
+
+  return (
+    <div style={{ textAlign: 'center', marginTop: '50px' }}>
+      <h1>Counter: {count}</h1>
+      
+      <button onClick={decrement}>Decrement</button>
+      <button onClick={increment}>Increment</button>
+    </div>
+  );
+}
+
+export default Counter;
+
+
+output:
+
+
+
+
+
+
+
+
+
+
+b) to demonstrate  props in React 
+React-props/src/App.js
+import React from 'react';
+import Greeting from './Greeting';
+function App() {
+  return (
+    <div style={{ textAlign: 'center', marginTop: '50px' }}>
+      <h1>React Props Example</h1>
+      {/* Passing props to the Greeting component */}
+      <Greeting name="Alice" id="111" />
+      <Greeting name="Bob" id="222"/>
+      <Greeting name="Charlie" id="333"/>
+      
+    </div>
+  );
+}
+export default App;
+
+React-props/src/Greeting.js
+
+import React from 'react';
+
+function Greeting(props) {
+  return(
+      <h2>Hello, Your name:{props.name} and id:{props.id}  </h2>
+  );   
+  
+
+}
+
+export default Greeting;
+
+
+
+
+output:
+
+
+
+
+EXP30.
+AIM: Develop a form with a field an email address and validate it using React.
+Form-validate/Src/App.js
+//email validation
+import React, { useState } from 'react';
+export default function ValidatedForm() {
+  const [email, setEmail] = useState('');
+  const [error, setError] = useState('');
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setEmail(value);
+
+    // Simple validation
+    if (!/\S+@\S+\.\S+/.test(value)) {
+      setError('Invalid email address');
+    } else {
+      setError('');
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!error) {
+      alert('Email submitted successfully....');
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <label>
+        Email:
+        <input type="email" value={email} onChange={handleChange} />
+      </label>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+      <button type="submit" disabled={!!error}>
+        Submit
+      </button>
+    </form>
+  );
+}
+
+Output:
+
+

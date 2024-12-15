@@ -1,0 +1,45 @@
+Databinding/src/app/app.component.ts
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [RouterOutlet],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css'
+})
+export class AppComponent {
+  title = 'databinding';
+  isdisabled:boolean=true;
+  isactive:boolean=true;
+  
+}
+
+
+
+
+Databinding/src/app/app.component.html
+
+<h4> STRING INTERPOLATION EXAMPLE</h4>
+result:{{150+500}} <br>
+name:{{title}}
+
+<h4> PROPERTY BINDING EXAMPLE</h4>
+enter your name: <input type='text'>
+<button [disabled]=isdisabled> submit</button><br>
+
+<h4> CLASS BINDING EXAMPLE</h4>
+<h1 [class]="isactive?'active':'inactive'"> welcome to class  binding</h1>
+
+
+
+
+Databinding/src/app/app.component.css
+.active{
+    color:blue
+}
+.inactive{
+    color:green
+}
+
+

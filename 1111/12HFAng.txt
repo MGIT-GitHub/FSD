@@ -1,0 +1,54 @@
+create header and footer in HF/
+ng g c header
+ng g c footer
+
+Component1/src/app/app.component.ts
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { HeaderComponent } from 'd:/MGIT/FSD_LAB/HF/header/header.component';
+import { FooterComponent } from 'D:/MGIT/FSD_LAB/HF/footer/footer.component';
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [RouterOutlet,HeaderComponent,FooterComponent],       
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css'
+})
+export class AppComponent {
+  title = 'component1';
+}
+//-----------
+Component1/src/app/app.component.html
+<hr>
+<h1> CREATING TWO COMPONENTS </h1>
+<hr>
+<app-header> </app-header>
+<hr>
+<app-footer> </app-footer>
+<hr>
+
+HF/header/header.component.html
+    
+    <h1>Welcome to the HEADER COMPONENT</h1>
+    
+
+
+hf/header/header.component.css
+
+h1
+{
+    color: blue
+}
+
+
+hf/footer/footer.component.html
+    <h1>Welcome to the FOOTER COMPONENT</h1>
+
+
+
+HF/footer/footer.component.css
+
+h1{
+    color: red
+}
+

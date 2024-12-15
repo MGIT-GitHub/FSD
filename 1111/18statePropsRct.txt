@@ -1,0 +1,64 @@
+// a) To demonstrate state in React.
+
+// ----React-state/src/App.js------------
+import React, { useState } from 'react';
+
+function Counter() {
+  // Declare a state variable 'count' and a function to update it 'setCount'
+  const [count, setCount] = useState(0);
+  
+  // Function to handle increment
+  const increment = () => {
+    setCount(count + 1);
+    
+  };
+
+  // Function to handle decrement
+  const decrement = () => {
+    setCount(count - 1);
+  };
+
+  return (
+    <div style={{ textAlign: 'center', marginTop: '50px' }}>
+      <h1>Counter: {count}</h1>
+      
+      <button onClick={decrement}>Decrement</button>
+      <button onClick={increment}>Increment</button>
+    </div>
+  );
+}
+
+export default Counter;
+// // =============================================================
+
+// b) to demonstrate  props in React 
+// ------------React-props/src/App.js---------
+import React from 'react';
+import Greeting from './Greeting';
+function App() {
+  return (
+    <div style={{ textAlign: 'center', marginTop: '50px' }}>
+      <h1>React Props Example</h1>
+      {/* Passing props to the Greeting component */}
+      <Greeting name="Alice" id="111" />
+      <Greeting name="Bob" id="222"/>
+      <Greeting name="Charlie" id="333"/>
+      
+    </div>
+  );
+}
+export default App;
+
+// -------React-props/src/Greeting.js--------
+
+import React from 'react';
+
+function Greeting(props) {
+  return(
+      <h2>Hello, name:{props.name} and id:{props.id}  </h2>
+  );   
+  
+
+}
+
+export default Greeting;
