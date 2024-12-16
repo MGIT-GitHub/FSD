@@ -1,0 +1,70 @@
+// --------src/app/app.component.ts--------------
+import { Component } from '@angular/core';
+import { NgIf, NgFor, NgSwitch, NgSwitchCase, NgSwitchDefault } from '@angular/common';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [NgIf, NgFor, NgSwitch, NgSwitchCase, NgSwitchDefault], // Include NgSwitch and related directives
+  template: `
+    <h1>EXAMPLE FOR DIRECTIVES IN ANGULAR</h1>
+
+    <!-- ngIf Example -->
+    <h2>ngIf</h2>
+    <div *ngIf="isVisible">
+      <p>This element is visible because 'isVisible' is true.</p>
+    </div>
+    <button (click)="toggleVisibility()">Toggle Visibility</button>
+
+    <!-- ngFor Example -->
+    <h2>ngFor</h2>
+    <ul>
+      <li *ngFor="let item of items; let i = index">
+        {{ i + 1 }}. {{ item }}
+      </li>
+    </ul>
+
+    <!-- ngSwitch Example -->
+    <h2>ngSwitch</h2>
+    <div [ngSwitch]="color">
+      <div *ngSwitchCase="'red'">The color is red!</div>
+      <div *ngSwitchCase="'blue'">The color is blue!</div>
+      <div *ngSwitchCase="'green'">The color is green!</div>
+      <div *ngSwitchDefault>The color is unknown!</div>
+    </div>
+
+    <button (click)="changeColor('red')">Red</button>
+    <button (click)="changeColor('blue')">Blue</button>
+    <button (click)="changeColor('green')">Green</button>
+    
+  `,
+  styles: [
+    `
+      .highlight {
+        font-weight: bold;
+        text-decoration: underline;
+        color: blue;
+      }
+    `,
+  ],
+})
+export class AppComponent {
+  // Variables for ngIf
+  isVisible = true;
+
+  // Method for ngIf
+  toggleVisibility() {
+    this.isVisible = !this.isVisible;
+  }
+
+  // Variables for ngFor
+  items = ['Apple', 'Banana', 'Orange', 'Grapes'];
+
+  // Variables for ngSwitch
+  color: string = 'red';
+
+  // Method for ngSwitch
+  changeColor(newColor: string) {
+    this.color = newColor;
+  }
+}

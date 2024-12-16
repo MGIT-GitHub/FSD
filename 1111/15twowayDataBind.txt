@@ -1,0 +1,42 @@
+// >ng new twowaybinding 
+
+// ----Src/app/app.component.ts--------
+import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule  // Required for ngModel
+  ],
+  template: `
+    <div class="container">
+      <h2>Two-Way Data Binding </h2>
+      
+      <label>Enter text </label>
+      <input 
+        [(ngModel)]="userInput"
+        (ngModelChange)="onInputChange($event)"
+        placeholder="Type something..."
+      >
+      
+      <p>You typed: {{ userInput }}</p>
+    </div>
+  `
+})
+export class AppComponent {
+  userInput: string = '';
+  
+  onInputChange(value: string) {
+    console.log('Input changed:', value);
+  }
+}
+// -----src/main.ts-------------
+import { bootstrapApplication } from '@angular/platform-browser';
+import { AppComponent } from './app/app.component';  // Updated import path
+
+bootstrapApplication(AppComponent)
+  .catch(err => console.error(err));
