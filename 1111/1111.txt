@@ -1373,63 +1373,49 @@ Exp.25
 AIM:  To demonstrate two way data binding in Angular.
 
 Note: use the following command to create the application
->ng new twowaybinding --no-standalone
+	
+// >ng new twowaybinding 
 
-
-
-Src/app/app.module.ts
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { FormsModule } from '@angular/forms';
-@NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule
-      ],
-  providers: [],
-  bootstrap: [AppComponent]
-})
-export class AppModule { }
-
-
-
-
-
-
-
-src/app/app.component.ts
-
+// ----Src/app/app.component.ts--------
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule  // Required for ngModel
+  ],
+  template: `
+    <div class="container">
+      <h2>Two-Way Data Binding </h2>
+      
+      <label>Enter text </label>
+      <input 
+        [(ngModel)]="userInput"
+        (ngModelChange)="onInputChange($event)"
+        placeholder="Type something..."
+      >
+      
+      <p>You typed: {{ userInput }}</p>
+    </div>
+  `
 })
 export class AppComponent {
-  title = 'twowaybinding';
-  city="hyderabad"
+  userInput: string = '';
   
+  onInputChange(value: string) {
+    console.log('Input changed:', value);
+  }
 }
+// -----src/main.ts-------------
+import { bootstrapApplication } from '@angular/platform-browser';
+import { AppComponent } from './app/app.component';  // Updated import path
 
-
-src/app/app.component.html
-<div>
-  <h2>Two-Way Data Binding Example</h2>
-
-  <!-- Two-way binding using ngModel -->
-  <label >Enter text:</label>
-  <input [(ngModel)]="text"  />
-  
-  <p>You entered: {{ text }}</p>  <!-- Display the text entered by the user -->
-</div>
-
+bootstrapApplication(AppComponent)
+  .catch(err => console.error(err));
 
 
 Output:
@@ -1441,86 +1427,79 @@ Exp.26
 AIM:  To demonstrate directives in Angular.
 
 Note: use the following command to create the application
->ng new directives --no-standalone
+>ng new directives 
 
-Src/app/app.module.ts
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { FormsModule } from '@angular/forms';
-
-@NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule
-    
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
-})
-export class AppModule { }
-
-
-
-src/app/app.component.ts
+// --------src/app/app.component.ts--------------
 import { Component } from '@angular/core';
+import { NgIf, NgFor, NgSwitch, NgSwitchCase, NgSwitchDefault } from '@angular/common';
+
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html'
+  standalone: true,
+  imports: [NgIf, NgFor, NgSwitch, NgSwitchCase, NgSwitchDefault], // Include NgSwitch and related directives
+  template: `
+    <h1>EXAMPLE FOR DIRECTIVES IN ANGULAR</h1>
+
+    <!-- ngIf Example -->
+    <h2>ngIf</h2>
+    <div *ngIf="isVisible">
+      <p>This element is visible because 'isVisible' is true.</p>
+    </div>
+    <button (click)="toggleVisibility()">Toggle Visibility</button>
+
+    <!-- ngFor Example -->
+    <h2>ngFor</h2>
+    <ul>
+      <li *ngFor="let item of items; let i = index">
+        {{ i + 1 }}. {{ item }}
+      </li>
+    </ul>
+
+    <!-- ngSwitch Example -->
+    <h2>ngSwitch</h2>
+    <div [ngSwitch]="color">
+      <div *ngSwitchCase="'red'">The color is red!</div>
+      <div *ngSwitchCase="'blue'">The color is blue!</div>
+      <div *ngSwitchCase="'green'">The color is green!</div>
+      <div *ngSwitchDefault>The color is unknown!</div>
+    </div>
+
+    <button (click)="changeColor('red')">Red</button>
+    <button (click)="changeColor('blue')">Blue</button>
+    <button (click)="changeColor('green')">Green</button>
+    
+  `,
+  styles: [
+    `
+      .highlight {
+        font-weight: bold;
+        text-decoration: underline;
+        color: blue;
+      }
+    `,
+  ],
 })
 export class AppComponent {
-  isVisible = true;  // Boolean variable to control visibility
+  // Variables for ngIf
+  isVisible = true;
 
+  // Method for ngIf
   toggleVisibility() {
-    this.isVisible = !this.isVisible;  // Toggle the visibility of the element
-    
+    this.isVisible = !this.isVisible;
   }
 
-  items = ['Apple', 'Banana', 'Orange', 'Grapes'];  // Array to iterate over
+  // Variables for ngFor
+  items = ['Apple', 'Banana', 'Orange', 'Grapes'];
 
-color: string = 'red';  // Default color
+  // Variables for ngSwitch
+  color: string = 'red';
 
+  // Method for ngSwitch
   changeColor(newColor: string) {
-    this.color = newColor;  // Change the color based on button click
-
+    this.color = newColor;
   }
 }
-src/app/app.component.html
 
-<h1> EXAMPLE FOR DIRECTIVES IN ANGULAR</h1>
-<h1> ngIf </h1>
-<div *ngIf="isVisible">
-  <p>This element is visible because 'isVisible' is true.</p>
-</div>
-
-<button (click)="toggleVisibility()">Toggle Visibility</button>
-
-<h1> ngFor </h1>
-<ul>
-  <li *ngFor="let item of items; let i = index">
-    {{ i + 1 }}. {{ item }}
-
-      </li>
-</ul>
-
-<h1> ngSwitch </h1>
-<div [ngSwitch]="color">
-  <div *ngSwitchCase="'red'">The color is red!</div>
-  <div *ngSwitchCase="'blue'">The color is blue!</div>
-  <div *ngSwitchCase="'green'">The color is green!</div>
-  <div *ngSwitchDefault>The color is unknown!</div>
-</div>
-
-<button (click)="changeColor('red')">Red</button>
-<button (click)="changeColor('blue')">Blue</button>
-<button (click)="changeColor('green')">Green</button>
-<button (click)="changeColor('yellow')">Yellow</button>
 
 
 Output:
@@ -1682,13 +1661,6 @@ export default Counter;
 
 
 output:
-
-
-
-
-
-
-
 
 
 
